@@ -7,7 +7,11 @@ class UsersController < ApplicationController
     @user["username"] = params["username"]
     @user["email"] = params["email"]
     @user["password"] = BCrypt::Password.create(params["password"])
-    @user.save
-    redirect_to "/login"
+    if @user.save
+      redirect_to "/login"
+    else
+      flash["notice"] = "Signup failed. Please try again."
+      redirect_to "/signup"
+    end
   end
 end
